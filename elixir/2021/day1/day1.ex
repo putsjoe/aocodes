@@ -21,7 +21,6 @@ values = File.read!("./input")
 
 IO.puts DayOne.rlist(values, 0)
 
-
 defmodule DayOneTest do
   use ExUnit.Case
 
@@ -39,6 +38,28 @@ defmodule DayOneTest do
 
   test "smaller same" do
     assert DayOne.rlist([1, 1, 2, 3], 0) == 2
+  end
+
+end
+
+
+defmodule PartTwo do
+
+  def rlist(data) do
+    Enum.chunk_every(data, 4, 1, :discard)
+    |> Enum.count(fn [a, _, _, d] -> a < d end)
+  end
+
+end
+
+IO.puts PartTwo.rlist(values)
+
+
+defmodule PartTwoTest do
+  use ExUnit.Case
+
+  test "default" do
+    assert PartTwo.rlist([607, 618, 618, 617, 647, 716, 769, 792]) == 5
   end
 
 end
