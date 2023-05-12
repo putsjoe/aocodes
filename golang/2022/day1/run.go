@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 	"strconv"
 )
 
@@ -18,16 +19,14 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	var largest int = 0
-	var total int
+	totals := []int{}
+	var cals int
 
 	for scanner.Scan() {
 
 		if scanner.Text() == "" {
-			if total > largest {
-				largest = total
-			}
-			total = 0
+			totals = append(totals, cals)
+			cals = 0
 		} else {
 			num, err := strconv.Atoi(scanner.Text())
 
@@ -35,14 +34,19 @@ func main() {
 				log.Fatal(err)
 			}
 
-			total += num
+			cals += num
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+	sort.Ints(totals[:])
 
-	fmt.Println(largest)
+	length := len(totals)
+	total_top := totals[length-1] + totals[length-2] + totals[length-3]
+
+	fmt.Println("Part One:", totals[length-1])
+	fmt.Println("Part Two:", total_top)
 
 }
